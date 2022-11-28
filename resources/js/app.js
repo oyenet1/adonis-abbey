@@ -1,9 +1,10 @@
 require('./bootstrap');
-// import Alpine from 'alpinejs';
 
-// window.Alpine = Alpine;
+import Alpine from 'alpinejs'
 
-// Alpine.start();
+window.Alpine = Alpine
+
+Alpine.start()
 
 // // aos library
 // import AOS from 'aos';
