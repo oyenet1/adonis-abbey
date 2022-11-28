@@ -1,0 +1,41 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "~aos/dist/aos.css";
+
+// @import '~@fortawesome/fontawesome-free/scss/fontawesome';
+// @import '~@fortawesome/fontawesome-free/scss/regular';
+// @import '~@fortawesome/fontawesome-free/scss/solid';
+// @import '~@fortawesome/fontawesome-free/scss/brands';
+
+.quicksand-normal, body, html {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 400;
+}
+.quicksand-medium {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 500;
+}
+
+.tourney-light {
+    font-family: 'Tourney', cursive;
+    font-weight: 300;
+}
+.tourney-normal {
+    font-family: 'Tourney', cursive;
+    font-weight: 400;
+}
+.tourney-medium {
+    font-family: 'Tourney', cursive;
+    font-weight: 500;
+}
+.tourney-semibold {
+    font-family: 'Tourney', cursive;
+    font-weight: 600;
+}
+.tourney-black {
+    font-family: 'Tourney', cursive;
+    font-weight: 900;
+}
