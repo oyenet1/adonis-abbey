@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,13 +17,18 @@ class CreateBooksTable extends Migration
         Schema::create('books', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->string('forthcoming_title');
+            $table->foreignIdFor(User::class)->nullable()->constrained()->nullOnDelete();
             $table->string('authors');
-            $table->string('cover_image');
+            $table->string('cover_image')->nullable();
             $table->string('isbn');
-            $table->integer('revision_number');
-            $table->string('publisher');
-            $table->string('genre')->nullable();
-            $table->dateTime('published_at');
+            $table->integer('uk_price')->nullable();
+            $table->integer('us_price')->nullable();
+            $table->integer('pages')->nullable();
+            $table->boolean('featured')->default(false);
+            $table->longText('description');
+            $table->string('weight')->nullable();
+            $table->dateTime('published_at')->nullable();
             $table->timestamp('created_at');
             $table->timestamp('updated_at');
         });

@@ -18,7 +18,9 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->bigInteger('phone')->nullable()->unique();
-            $table->boolean('can_borrow')->default(true);
+            $table->string('username')->unique();
+            $table->string('role')->nullable();
+            $table->double('balance', 12, 2)->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('image')->nullable();

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class {{ class }} extends Migration
+class CreateConvertersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,13 @@ class {{ class }} extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('converters', function (Blueprint $table) {
+            $table->id();
+            $table->integer('pounds');
+            $table->integer('dollar');
+            $table->string('royalty');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -23,6 +29,6 @@ class {{ class }} extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('converters');
     }
 }

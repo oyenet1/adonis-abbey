@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\BelongsToUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,12 +12,11 @@ class Book extends Model
         'published_at' => 'date',
     ];
 
-    use HasFactory;
+    use HasFactory, BelongsToUser;
     protected $guarded = [];
 
-    // bindibg relationships
-    public function borrowers()
+    function categories()
     {
-        return $this->hasMany(Borrower::class);
+        return $this->belongsToMany(Category::class);
     }
 }
