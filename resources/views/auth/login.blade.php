@@ -24,8 +24,11 @@
 
         <div class="flex-1 h-full max-w-md mx-auto overflow-hidden bg-white rounded-lg shadow-xl">
             <div class="flex flex-col overflow-y-auto">
-                <div class="h-32 pt-6 -mb-6 md:h-auto">
-                    <h2 class="overflow-hidden font-mono font-black text-center uppercase">E-Library</h2>
+                <div class="pt-6 -mb-6">
+                    <h2
+                        class="overflow-hidden font-mono my-3                                                                                                            font-black text-center uppercase font-semibold text-xl">
+                        adonis
+                        abbey publishers</h2>
                     <img aria-hidden="true" class="object-cover w-20 h-20 mx-auto rounded-full" src="/img/bowofade.jpg"
                         alt="Office" />
                 </div>
