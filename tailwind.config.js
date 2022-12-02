@@ -11,12 +11,16 @@ module.exports = {
     darkMode: false, // or 'media' or 'class'
     theme: {
         extend: {
+            fontFamily: {
+                poppin: ["'Poppins', sans-serif"],
+                roboto: ['Roboto', "sans-serif"],
+            },
             colors: {
                 transparent: "transparent",
                 current: "currentColor",
                 'primary': {
                     light: '#d2dcf9',
-                    DEFAULT: '#F58820',
+                    DEFAULT: '#0d2364',
                     100: "#e8edfc",
                     200: "#a5b8f3",
                     300: "#7895ed",
@@ -45,7 +49,7 @@ module.exports = {
 
             },
         },
-        themeVariants: ['dark'],
+        themeVariants: ['light'],
         customForms: (theme) => ({
             default: {
                 'input, textarea': {
