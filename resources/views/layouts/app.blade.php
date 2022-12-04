@@ -115,17 +115,17 @@
             </div>
         </nav>
 
-        <aside class="aside is-placed-left is-expanded border-r bg-white ">
+        <aside class="bg-white border-r aside is-placed-left is-expanded ">
             <div class="aside-tools bg-primary-light">
-                <div class="font-black uppercase text-primary text-center mx-auto">Adonis -<b
+                <div class="mx-auto font-black text-center uppercase text-primary">Adonis -<b
                         class="font-black text-secondary">
                         Abbey</b>
                 </div>
             </div>
-            <div class="menu is-menu-main space-y-1 overflow-y-auto">
+            <div class="space-y-1 overflow-y-auto menu is-menu-main">
                 <p class="px-4 py-2 capitalize">{{ greeting() . ', ' }} <span
                         class="font-medium">{{ currentUser()->roles[0]->name }}</span></p>
-                <ul class="menu-list space-y-1">
+                <ul class="space-y-1 menu-list">
                     <li class="{{ request()->is('dashboard') ? 'active' : '' }}">
                         <a href="/">
                             <span class="icon"><i class="mdi mdi-desktop-mac"></i></span>
@@ -150,7 +150,7 @@
                     </li>
                 </ul>
                 <p class="menu-label">User Management</p>
-                <ul class="menu-list space-y-1">
+                <ul class="space-y-1 menu-list">
                     <li>
                         <a class="dropdown">
                             <span class="icon">
@@ -201,7 +201,7 @@
                     </li>
                 </ul>
                 <p class="menu-label">Book Management</p>
-                <ul class="menu-list space-y-1">
+                <ul class="space-y-1 menu-list">
                     <li>
                         <a class="dropdown">
                             <span class="icon">
@@ -227,7 +227,7 @@
                     </li>
                 </ul>
                 <p class="menu-label">Sales Management</p>
-                <ul class="menu-list space-y-1">
+                <ul class="space-y-1 menu-list">
                     <li class="--set-active-profile-html">
                         <a href="">
                             <span class="icon">
@@ -262,7 +262,7 @@
                         </a>
                     </li>
                     <p class="menu-label">Blog Management</p>
-                    <ul class="menu-list space-y-1">
+                    <ul class="space-y-1 menu-list">
                         <li class="">
                             <a class="dropdown">
                                 <span class="icon">
@@ -289,7 +289,7 @@
                         </li>
                     </ul>
                     <p class="menu-label">Journals Management</p>
-                    <ul class="menu-list space-y-1">
+                    <ul class="space-y-1 menu-list">
                         <li class="">
                             <a class="dropdown">
                                 <span class="icon">
@@ -318,10 +318,10 @@
                 </ul>
             </div>
 
-            <div class="absolute w-full bottom-0 mx-auto rounded-lg flex mb-4 justift-between items-center">
+            <div class="absolute bottom-0 flex items-center w-full mx-auto mb-4 rounded-lg justift-between">
                 <div class="hidden mx-auto">
                     <img src="/img/adonis.png" alt="Adonis and abbey publishers"
-                        class="block lg:w-40 animate w-24 p-4 border-4 rounded-lg border-primary ">
+                        class="block w-24 p-4 border-4 rounded-lg lg:w-40 animate border-primary ">
                 </div>
 
             </div>
@@ -752,10 +752,10 @@
             {{ $slot ?? '' }}
         </main>
 
-        <footer class="footer bg-primary text-white  w-full">
-            <div class="flex text-sm flex-col items-center justify-between space-y-3 md:flex-row md:space-y-0">
+        <footer class="w-full text-white footer bg-primary">
+            <div class="flex flex-col items-center justify-between space-y-3 text-sm md:flex-row md:space-y-0">
                 <div></div>
-                <div class="flex uppercase items-center justify-start space-x-3">
+                <div class="flex items-center justify-start space-x-3 uppercase">
                     <div>© All right reserved 2003 - {{ date('Y') }} ADONIS & ABBEY PUBLISHers LTD.</div>
 
 
@@ -775,7 +775,8 @@
     </div>
 
     <!-- Scripts below are for demo only -->
-    <script type="text/javascript" src="/dashboard/dist/js/main.min.js"></script>
+    <script type="text/javascript" src="/js/main.min.js"></script>
+    {{-- <script type="text/javascript" src="/js/main.js"></script> --}}
     @livewireScripts
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @yield('scripts')
@@ -812,7 +813,7 @@
     </script>
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
-    <script type="text/javascript" src="/dashboard/dist/js/chart.sample.min.js"></script>
+    <script type="text/javascript" src="/js/chart.sample.min.js"></script>
 
 
     <!-- Icons below are for demo only. Feel free to use any icon pack. Docs: https://bulma.io/documentation/elements/icon/ -->
