@@ -2,8 +2,6 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\BookController;
-use App\Http\Controllers\BackendController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,14 +17,14 @@ use App\Http\Controllers\BackendController;
 Route::get('/', function () {
     if (Auth::check()) {
         // redirect to dashboard if the user role is admin or librarian else redirect to home
-        return auth()->user()->hasRole(['admin', 'superadmin']) ? redirect('/dashboard') : redirect('/home');
+        return redirect('/home');
     }
     return view('auth.login');
 });
 
 Route::view('/template', 'layouts.dashboard');
 
-Route::get('/dashboard', App\Http\Livewire\AllBooks::class)->middleware('role:superadmin|admin|sales|editor');
+Route::get('/dashboard', App\Http\Livewire\AllBooks::class)->middleware('auth');
 
 
 Route::get('/home', App\Http\Livewire\Books::class)->name('library')->middleware('auth');;
