@@ -74,8 +74,7 @@
                         <hr class="my-8" />
                         <p class="mt-1 text-center">
                             <span>New Author</span>
-                            <a class="text-sm font-medium text-secondary hover:underline"
-                                href="{{ route('register') }}">
+                            <a class="text-sm font-medium text-secondary hover:underline" href="">
                                 Create an account
                             </a>
                         </p>
