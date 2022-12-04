@@ -7,7 +7,7 @@ use App\Models\Role;
 
 class RoleSeeder extends Seeder
 {
-    public $roles = ['admin', 'librarian', 'reader'];
+    public $roles = ['speradmin', 'admin', 'sales', 'editor', 'vea', 'sunscriber'];
     /**
      * Run the database seeds.
      *
