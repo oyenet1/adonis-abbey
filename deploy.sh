@@ -8,7 +8,7 @@ echo "Deploying application"
   git pull origin master
 
 #exit maintainance mode
-composer install
+composer update
 composer dump-autoload
 php artisan route:clear
 php artisan view:clear
