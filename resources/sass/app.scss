@@ -6,10 +6,21 @@
 @tailwind components;
 @tailwind utilities;
 
+.menu-list li.active>a {
+      --tw-bg-opacity: 1;
+    //   background-color: rgba(232, 237, 252, var(--tw-bg-opacity));
+      color: white;
+      font-weight: normal;
+    }
+
 
 @layer components {
     body{
         @apply font-roboto font-normal;
+    }
+
+    .active{
+        @apply bg-primary;
     }
     .alert-success {
         @apply text-green-500 border-green-600;

@@ -24,6 +24,8 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
+Route::view('/template', 'layouts.dashboard');
+
 Route::get('/dashboard', App\Http\Livewire\AllBooks::class)->middleware('role:admin|librarian');
 
 

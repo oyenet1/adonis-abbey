@@ -181,6 +181,6 @@ class AllBooks extends Component
     {
         $term = '%' . $this->search . '%';
         $books = Book::where('authors', 'LIKE', $term)->orWhere('title', 'LIKE', $term)->orWhere('isbn', 'LIKE', $term)->orWhere('published_at', 'LIKE', $term)->paginate(5);
-        return view('livewire.all-books', compact(['books']));
+        return view('livewire.all-books', compact(['books']))->layout('layouts.dashboard');
     }
 }

@@ -23,3 +23,19 @@ function returnDateTime($date)
     $date = date_format($date, 'H:ia, d M');
     return $date;
 }
+
+function currentUser(): object
+{
+    return auth()->user();
+}
+
+function greeting(): string
+{
+    $string = "good morning";
+    if ((intval(date('H') + 1) >= 12) && (intval(date('H') + 1) < 16)) {
+        $string = 'good afternoon';
+    } elseif (intval(date('H') + 1) >= 16 && intval(date('H') + 1) < 23) {
+        $string = 'good evening';
+    }
+    return $string;
+}
