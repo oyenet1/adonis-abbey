@@ -40,10 +40,10 @@
                             @csrf
                             <label class="block text-sm">
                                 <span class="text-gray-600">Email</span>
-                                <input name="email" type="text" value="{{ old('email') }}"
+                                <input name="username" type="text" value="{{ old('username') }}"
                                     class="block w-full mt-1 text-sm form-input focus:border-primary focus:outline-none"
-                                    placeholder="Janedoe@adonis-abbey.com" />
-                                @error('email')
+                                    placeholder="janedoe" />
+                                @error('username')
                                     <span class="text-sm font-normal text-red-600">{{ $message }}</span>
                                 @enderror
                             </label>

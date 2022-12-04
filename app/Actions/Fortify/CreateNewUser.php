@@ -32,7 +32,8 @@ class CreateNewUser implements CreatesNewUsers
                 Rule::unique(User::class),
 
             ],
-            // 'phone' => ['nullable', 'digits:10'],
+            'phone' => ['nullable', 'digits:10'],
+            'username' => ['required', Rule::unique(User::class)],
             'password' => $this->passwordRules(),
 
         ])->validate();
@@ -40,7 +41,8 @@ class CreateNewUser implements CreatesNewUsers
         $user = User::create([
             'name' => $input['name'],
             'email' => $input['email'],
-            // 'phone' => $input['phone'],
+            'username' => $input['email'],
+            'phone' => $input['phone'],
             'password' => Hash::make($input['password']),
         ]);
 
