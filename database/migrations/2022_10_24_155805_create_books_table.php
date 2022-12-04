@@ -29,8 +29,7 @@ class CreateBooksTable extends Migration
             $table->longText('description');
             $table->string('weight')->nullable();
             $table->dateTime('published_at')->nullable();
-            $table->timestamp('created_at');
-            $table->timestamp('updated_at');
+            $table->timestamps();
         });
     }
 
