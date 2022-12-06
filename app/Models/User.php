@@ -45,6 +45,27 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function profile()
+    {
+        return $this->hasOne(Profile::class);
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        // create a profile together with user_error
+        self::created(function ($user) {
+            // $user->update(['role' => $user->roles ? $user->roles[0]->name : null]);
+            $user->profile()->create([]);
+        });
+
+        // detach roles from user when deleted
+        self::deleted(function ($user) {
+            $user->detachRoles($user->roles);
+        });
+    }
+
     // relationship between roles and users
     function roles()
     {

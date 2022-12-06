@@ -18,11 +18,6 @@
     <title>Login - Adonis Abbey </title>
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
-
-    {{-- <link rel="stylesheet" href="/assets/css/tailwind.output.css" /> --}}
-
-    {{-- <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
-    <script src="/assets/js/init-alpine.js"></script> --}}
 </head>
 
 <body>
@@ -39,7 +34,7 @@
                         <form action="{{ route('login') }}" method="post">
                             @csrf
                             <label class="block text-sm">
-                                <span class="text-gray-600">Email</span>
+                                <span class="text-gray-600">Username/Email</span>
                                 <input name="username" type="text" value="{{ old('username') }}"
                                     class="block w-full mt-1 text-sm form-input focus:border-primary focus:outline-none"
                                     placeholder="janedoe" />

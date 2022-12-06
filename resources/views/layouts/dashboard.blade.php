@@ -158,7 +158,7 @@
                                     <span class="md:pl-8">Manage Users</span>
                                 </a>
                             </li>
-                            <li>
+                            <li class="bg-white">
                                 <a href="#void" class="">
                                     <span class="md:pl-8">Manage Users Roles</span>
                                 </a>

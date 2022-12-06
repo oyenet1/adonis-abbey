@@ -22,7 +22,8 @@
 
     <link href="{{ mix('css/main.css') }}" rel="stylesheet">
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
-    <script defer src="https://unpkg.com/alpinejs@3.4.2/dist/cdn.min.js"></script>
+    {{-- <script defer src="https://unpkg.com/alpinejs@3.4.2/dist/cdn.min.js"></script> --}}
+    <script src="{{ mix('js/app.js') }}" defer></script>
 
     <meta name="description" content="Adonis Abbey" />
 
@@ -46,6 +47,11 @@
     <style>
         [x-cloak] {
             display: none !important;
+        }
+
+        a.active {
+            color: white !important;
+            background: #0d2364;
         }
     </style>
     @livewireStyles
@@ -115,7 +121,7 @@
             </div>
         </nav>
 
-        <aside class="bg-white border-r aside is-placed-left is-expanded ">
+        <aside class="overflow-y-auto bg-white border-r aside is-placed-left is-expanded">
             <div class="aside-tools bg-primary-light">
                 <div class="mx-auto font-black text-center uppercase text-primary">Adonis -<b
                         class="font-black text-secondary">
@@ -126,7 +132,7 @@
                 <p class="px-4 py-2 capitalize">{{ greeting() . ', ' }} <span
                         class="font-medium">{{ currentUser()->roles[0]->name }}</span></p>
                 <ul class="space-y-1 menu-list">
-                    <li class="{{ request()->is('dashboard') ? 'active' : '' }}">
+                    <li class="{{ request()->is('*/home') ? 'active' : '' }}">
                         <a href="/">
                             <span class="icon"><i class="mdi mdi-desktop-mac"></i></span>
                             <span class="menu-item-label">Dashboard</span>
@@ -152,7 +158,7 @@
                 <p class="menu-label">User Management</p>
                 <ul class="space-y-1 menu-list">
                     <li>
-                        <a class="dropdown">
+                        <a class="dropdown {{ request()->is('admin/users') ? 'active' : '' }}">
                             <span class="icon">
                                 <svg style="width:20px;height:20px" viewBox="0 0 24 24">
                                     <path fill="currentColor"
@@ -162,13 +168,14 @@
                             <span class="menu-item-label">Users</span>
                             <span class="icon"><i class="mdi mdi-plus"></i></span>
                         </a>
-                        <ul class="bg-white">
-                            <li class="bg-white">
-                                <a href="#void" class="">
+                        <ul class="bg-white ">
+                            <li
+                                class=" {{ request()->is('admin/users') ? 'active border-l-2 border-transparent' : 'bg-white' }}">
+                                <a href="{{ route('users') }}" class="">
                                     <span class="md:pl-8">Manage Users</span>
                                 </a>
                             </li>
-                            <li>
+                            <li class="bg-white">
                                 <a href="#void" class="">
                                     <span class="md:pl-8">Manage Users Roles</span>
                                 </a>
@@ -213,12 +220,12 @@
                             <span class="icon"><i class="mdi mdi-plus"></i></span>
                         </a>
                         <ul>
-                            <li>
+                            <li class="bg-white">
                                 <a href="#void" class="">
                                     <span class="md:pl-8">Add Books</span>
                                 </a>
                             </li>
-                            <li>
+                            <li class="bg-white">
                                 <a href="#void" class="">
                                     <span class="md:pl-8">View Books</span>
                                 </a>
@@ -318,13 +325,13 @@
                 </ul>
             </div>
 
-            <div class="absolute bottom-0 flex items-center w-full mx-auto mb-4 rounded-lg justift-between">
+            {{-- <div class="absolute bottom-0 flex items-center w-full mx-auto mb-4 rounded-lg justift-between">
                 <div class="hidden mx-auto">
                     <img src="/img/adonis.png" alt="Adonis and abbey publishers"
                         class="block w-24 p-4 border-4 rounded-lg lg:w-40 animate border-primary ">
                 </div>
 
-            </div>
+            </div> --}}
         </aside>
 
         {{-- <section class="is-title-bar">
@@ -779,7 +786,7 @@
     {{-- <script type="text/javascript" src="/js/main.js"></script> --}}
     @livewireScripts
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    @yield('scripts')
+
 
     <script>
         // success message
@@ -811,13 +818,16 @@
             $('[data-toggle="tooltip"]').tooltip()
         })
     </script>
-
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    {{-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script> --}}
     <script type="text/javascript" src="/js/chart.sample.min.js"></script>
 
 
     <!-- Icons below are for demo only. Feel free to use any icon pack. Docs: https://bulma.io/documentation/elements/icon/ -->
+
     <link rel="stylesheet" href="https://cdn.materialdesignicons.com/4.9.95/css/materialdesignicons.min.css" />
+    @stack('scripts')
+    {{-- @yield('scripts') --}}
 </body>
 
 </html>

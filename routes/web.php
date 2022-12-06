@@ -16,17 +16,24 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     if (Auth::check()) {
-        // redirect to dashboard if the user role is admin or librarian else redirect to home
-        return redirect('/home');
+        return toDashboard();
     }
     return view('auth.login');
 });
 
-Route::view('/template', 'layouts.dashboard');
+Route::view('/sales', 'layouts.dashboard');
 
-Route::get('/dashboard', App\Http\Livewire\AllBooks::class)->middleware('auth');
+/* ----------------admin only route ------------*/
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:superadmin|admin']], function () {
+    Route::get('/users',  \App\Http\Livewire\Users::class)->name('users');
+    Route::get('/roles',  \App\Http\Livewire\Guard::class)->name('gate');
+});
+
+Route::get('/superadmin/home', App\Http\Livewire\AdminDashboard::class)->middleware('role:superadmin|admin');
 
 
-Route::get('/home', App\Http\Livewire\Books::class)->name('library')->middleware('auth');;
+Route::get('/home', function () {
+    return toDashboard();
+})->name('home')->middleware('auth');
 Route::get('/profile', App\Http\Livewire\ImageUpload::class)->name('profile')->middleware('auth');
 Route::get('/borrowers', App\Http\Livewire\Borrows::class)->name('admin.book')->middleware('role:admin|librarian');

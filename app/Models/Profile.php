@@ -10,7 +10,6 @@ class Profile extends Model
 {
 
 
-    use BelongsToUser;
-    use HasFactory;
+    use BelongsToUser, HasFactory;
     protected $guarded = [];
 }
