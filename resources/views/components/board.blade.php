@@ -2,7 +2,7 @@
     <div class="flex justify-between w-full">
         <div class="">
             <p class="text-lg xl:text-xl  capitalize text-gray-400">{{ $name }}</p>
-            <h1 class="text-xl lg:text-2xl 2xl:text-3xl text-primary-dark font-medium font-poppin">
+            <h1 class="text-xl lg:text-2xl  text-primary-dark font-medium font-poppin">
                 @if ($money)
                     <span>&pound</span>
                 @endif

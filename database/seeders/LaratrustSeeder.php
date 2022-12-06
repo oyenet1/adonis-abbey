@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use Illuminate\Support\Str;
-use Faker\Generator as Faker;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
@@ -16,12 +15,8 @@ class LaratrustSeeder extends Seeder
      *
      * @return void
      */
-
-    public $phones = [9052314785, 8036541236, 8052413576, 7085695625, 9045856584, 8065896324];
-
     public function run()
     {
-        $phones = [9052314785, 8036541236, 8052413576, 7085695625, 9045856584, 8065896324];
         $this->truncateLaratrustTables();
 
         $config = Config::get('laratrust_seeder.roles_structure');
@@ -72,7 +67,7 @@ class LaratrustSeeder extends Seeder
                 $user = \App\Models\User::create([
                     'name' => ucwords(str_replace('_', ' ', $key)),
                     'email' => $key . '@adonis.com',
-                    'phone' => $phones[rand(0, 5)],
+                    'phone' => fake()->email(),
                     'password' => bcrypt('password'),
                     'username' => strtoupper($key . '-' . Str::random(4)),
                 ]);

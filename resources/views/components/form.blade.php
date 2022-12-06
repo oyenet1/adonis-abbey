@@ -16,14 +16,14 @@
 
         @if ($update)
             <button wire:loading.attr="disabled"
-                class="w-[331px] mx-auto btn submit-primary capitalize tt submit-primary font-normal"
+                class="w-[200px] mx-auto btn submit-primary capitalize tt submit-primary font-normal"
                 type="submit">Update
                 {{ $title }}
                 <img wire:loading.delay wire:target='update' src="/img/spin-white.svg" alt="" class="w-11 h-11">
             </button>
         @else
             <button wire:loading.attr="disabled"
-                class="w-[331px] mx-auto submit-primary py-2 capitalize tt submit-primary font-normal"
+                class="w-[200px] mx-auto submit-primary py-2 capitalize tt submit-primary font-normal"
                 type="submit">{{ $header ?? 'add' }}
                 {{ $title }}
                 <img wire:loading.delay wire:target='save' src="/img/spin-white.svg" alt="" class="w-11 h-11">

@@ -48,6 +48,12 @@ module.exports = {
                 },
 
             },
+            spacing: {
+                '8xl': '8px',
+                '9xl': '8px',
+                'hd': '8px',
+                '4k': '8px',
+            },
         },
         themeVariants: ['light'],
         customForms: (theme) => ({

@@ -5,11 +5,12 @@ namespace App\Http\Livewire;
 use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Illuminate\Validation\Rule;
 use Illuminate\Database\Eloquent\Builder;
 
 class Users extends Component
 {
-    public $name, $username, $email, $phone,  $cid, $role;
+    public $name, $username, $email, $phone, $cid, $role;
     public $code = "+234";
 
     // public User $users;
@@ -45,21 +46,26 @@ class Users extends Component
 
     function refreshInputs()
     {
-        $this->first_name = '';
-        $this->last_name = '';
+        $this->name = '';
+        $this->username = '';
         $this->role = '';
         $this->phone = '';
         $this->email = '';
+        $this->cid = '';
         $this->code = "+234";
+        $this->resetPage();
+        $this->checked = [];
+        $this->update = false;
+        $this->search = '';
     }
 
-    // protected $rules = [
-    //     'first_name' => 'required',
-    //     'last_name' => 'required',
-    //     'email' => 'required|email|unique:users',
-    //     'phone' => 'required|unique:users|numeric|digits_between:10,11',
-    //     'role' => ['required', 'not_in:select,nurse,Nurse']
-    // ];
+    protected $rules = [
+        'name' => 'required',
+        'username' => 'required|unique:users',
+        'email' => 'required|email|unique:users',
+        'phone' => 'required|unique:users|numeric|digits_between:10,11',
+        'role' => ['required', 'not_in:select,nurse,Nurse']
+    ];
 
     public function resetFilters()
     {
@@ -68,15 +74,9 @@ class Users extends Component
 
     function save()
     {
-        $data = $this->validate([
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'email' => 'required|email|unique:users',
-            'phone' => 'required|unique:users|numeric|digits_between:10,11',
-            'role' => ['required', Rule::notIn(['nurse', 'Nurse']),]
-        ]);
+        $data = $this->validate();
 
-        $this->phone = trimPhone($this->code, $this->phone); //function from helpers,
+        // $this->phone = trimPhone($this->code, $this->phone); //function from helpers,
 
 
         $user = User::create($data);
@@ -86,20 +86,24 @@ class Users extends Component
 
             if ($saved) {
                 // welcome email to the users
-                $user->notify(new WelcomeMessage($user));
+                // $user->notify(new WelcomeMessage($user));
                 // send notifications to users(admins)
                 // sendNotifyToAdmin($user);
-
                 $this->form = false;
-                session()->flash('success', $this->first_name . ' has been added to user');
+
+                $this->dispatchBrowserEvent('swal:success', [
+                    'icon' => 'success',
+                    'confirmButton' => '#0d2364',
+                    'text' => 'A user has been added from the system',
+                    'title' => 'Added Successfully',
+                    'timer' => 3000,
+                ]);
+
                 $this->refreshInputs();
             }
         } catch (\Throwable $e) {
             dd($e->getMessage());
         }
-
-
-
         return redirect()->back();
     }
 
@@ -155,12 +159,14 @@ class Users extends Component
         $true = $user->delete();
 
         if ($true) {
-            session()->flash('success', $user->first_name . ' has been removed as user');
+            $this->dispatchBrowserEvent('swal:success', [
+                'icon' => 'success',
+                'text' => 'A user has been removed to the system',
+                'title' => 'Deleted Successfully',
+                'timer' => 3000,
+            ]);
         }
-        $this->resetPage();
-        $this->checked = [];
-        $this->update = false;
-        $this->search = '';
+        $this->refreshInputs();
 
         // return redirect()->route('user');
     }
@@ -197,7 +203,7 @@ class Users extends Component
             ->orWhere('email', 'LIKE', $term)
             ->orWhereHas('roles', function (Builder $query) {
                 $term = "%$this->search%";
-                $query->where('name', strtolower($term));
+                $query->where('name', 'LIKE', strtolower($term));
             })
             ->orWhereHas('profile', function (Builder $query) {
                 $term = "%$this->search%";

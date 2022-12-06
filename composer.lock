@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "019321197fddb262386f8e62f595194b",
+    "content-hash": "ea20b79ec4cab8f04e2cfdefa3af0c91",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -3438,16 +3438,16 @@
         },
         {
             "name": "santigarcor/laratrust",
-            "version": "7.x-dev",
+            "version": "7.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/santigarcor/laratrust.git",
-                "reference": "b9fee84af4a4cfd0ba409d3f16e1f7958dd12a9b"
+                "reference": "8a18c70bb1ced09baed361b68c432b0bedb74f16"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/santigarcor/laratrust/zipball/b9fee84af4a4cfd0ba409d3f16e1f7958dd12a9b",
-                "reference": "b9fee84af4a4cfd0ba409d3f16e1f7958dd12a9b",
+                "url": "https://api.github.com/repos/santigarcor/laratrust/zipball/8a18c70bb1ced09baed361b68c432b0bedb74f16",
+                "reference": "8a18c70bb1ced09baed361b68c432b0bedb74f16",
                 "shasum": ""
             },
             "require": {
@@ -3501,7 +3501,7 @@
             ],
             "support": {
                 "issues": "https://github.com/santigarcor/laratrust/issues",
-                "source": "https://github.com/santigarcor/laratrust/tree/7.x"
+                "source": "https://github.com/santigarcor/laratrust/tree/7.1.0"
             },
             "funding": [
                 {
@@ -3509,7 +3509,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-03-04T15:28:30+00:00"
+            "time": "2022-03-04T15:28:43+00:00"
         },
         {
             "name": "symfony/console",
