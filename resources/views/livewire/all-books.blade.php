@@ -4,7 +4,7 @@
     <x-modal class="lg:max-w-2xl">
         <x-form title="book" :update="$update">
             <x-text-input label="Book Title*" name="title" type="text" wire:model.defer="title" />
-            <x-text-input label="Book Cover*" name="cover_image" type="file" wire:model.defer="cover_image" />
+            <x-text-input label="Book Cover*" name="cover_image" type="file" wire:model="cover_image" />
             <x-text-input label="List of Authors*" name="authors" type="text" wire:model.defer="authors" />
             <div class="flex items-center justify-between w-full">
                 <x-text-input label="Uk price*" name="uk_price" type="text" wire:model.defer="uk_price"
@@ -71,7 +71,7 @@
 
     {{-- tables --}}
     <div class="w-full px-4 pb-4 overflow-x-auto bg-white rounded-lg shadow-sm">
-        @if (\App\Models\book::count() > 1)
+        @if (\App\Models\Book::count() > 0)
             <table class="w-full space-y-2 overflow-x-auto whitespace-nowrap">
                 <thead class="w-full pb-4 text-xl border-b">
                     <tr class="font-medium">

@@ -64,6 +64,7 @@ class AllBooks extends Component
         $this->forthcoming_title = '';
         $this->featured = '';
         $this->update = false;
+        $this->form = false;
     }
 
     function add()
