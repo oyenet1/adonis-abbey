@@ -197,7 +197,7 @@ class Users extends Component
     public function render()
     {
         $term = "%$this->search%";
-        $users = User::with(['profile', 'roles'])
+        $users = User::with(['roles'])
             ->where('name', 'LIKE', $term)
             ->orWhere('username', 'LIKE', $term)
             ->orWhere('email', 'LIKE', $term)
@@ -205,12 +205,12 @@ class Users extends Component
                 $term = "%$this->search%";
                 $query->where('name', 'LIKE', strtolower($term));
             })
-            ->orWhereHas('profile', function (Builder $query) {
-                $term = "%$this->search%";
-                $query->where('country', 'LIKE', $term)
-                    ->orWhere('wallet_type', 'LIKE', $term)
-                    ->orWhere('state', 'LIKE', $term);
-            })
+                // ->orWhereHas('profile', function (Builder $query) {
+                //     $term = "%$this->search%";
+                //     $query->where('country', 'LIKE', $term)
+                //         ->orWhere('wallet_type', 'LIKE', $term)
+                //         ->orWhere('state', 'LIKE', $term);
+                // })
             ->paginate($this->perPage);
         return view('livewire.users', compact(['users']));
     }
