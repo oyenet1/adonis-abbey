@@ -1,14 +1,15 @@
-<div class="flex flex-col w-full mx-auto gap-8 p-8 xl:p-8 2xl:p-10 xl:gap-8 2xl:gap-10">
+<div class="flex flex-col w-full gap-8 p-8 mx-auto xl:p-8 2xl:p-10 xl:gap-8 2xl:gap-10">
     {{-- form --}}
     {{-- modal forms and inputs components --}}
     <x-modal class="lg:max-w-2xl">
         <x-form title="book" :update="$update">
             <x-text-input label="Book Title*" name="title" type="text" wire:model.defer="title" />
             <x-text-input label="Book Cover*" name="cover_image" type="file" wire:model.defer="cover_image" />
+            <x-text-input label="List of Authors*" name="authors" type="text" wire:model.defer="authors" />
             <div class="flex items-center justify-between w-full">
                 <x-text-input label="Uk price*" name="uk_price" type="text" wire:model.defer="uk_price"
                     class="w-[96%]" />
-                <x-text-input label="US Price*" name="us_price" type="text" wire:model.defer="uk_price"
+                <x-text-input label="US Price*" name="us_price" type="text" wire:model.defer="us_price"
                     class="w-[96%]" />
             </div>
             {{-- position --}}
@@ -31,17 +32,23 @@
                     class="w-[30%]" />
                 <x-text-input label="Book Pages*" name="pages" type="text" wire:model.defer="pages"
                     class="w-[30%]" />
-                <div class="flex flex-1">
+                <div class="flex flex-1 w-full space-x-4">
                     <label for="featured">Featured</label>
-                    <label for="yes">
-                        <input type="radio" name="featured" id="yes">
+                    <label for="yes" class="flex items-center">
+                        <input
+                            class="mx-2 text-secondary focus:outline-0 focus:border-secondary focus:border-2 focus:ring-2 focus:ring-secondary"
+                            type="checkbox" name="featured" id="yes" value="{{ true }}"
+                            wire:model="featured">
                     </label>
                 </div>
             </div>
 
-            {{-- email --}}
-            {{--
-            <x-text-input label="Email*" name="email" type="text" wire:model.defer="email" /> --}}
+            <div>
+                <label for="description" class="capitalize">Book description</label>
+                <textarea wire:model="description" id="description"
+                    class="w-full h-full px-0 font-medium placeholder-gray-500 bg-white border rounded border-primary text-dark focus:outline-none focus:bg-white tt focus:ring-0 focus:border-secondary"
+                    cols="30" rows="5"></textarea>
+            </div>
         </x-form>
     </x-modal>
     <div class="flex items-center justify-between ">
@@ -69,50 +76,45 @@
                 <thead class="w-full pb-4 text-xl border-b">
                     <tr class="font-medium">
                         <th class="p-2 whitespace-nowrap"></th>
-                        <th class="p-2 text-xl font-medium text-left">Name</th>
-                        <th class="p-2 text-xl font-medium text-left">bookname</th>
-                        <th class="p-2 text-xl font-medium text-left">Role</th>
-                        <th class="p-2 text-xl font-medium text-left">Phone</th>
-                        <th class="p-2 text-xl font-medium text-left">Email</th>
+                        <th class="p-2 text-xl font-medium text-left">Image</th>
+                        <th class="p-2 text-xl font-medium text-left">Title</th>
+                        <th class="p-2 text-xl font-medium text-left">Owner</th>
+                        <th class="p-2 text-xl font-medium text-left">Authors</th>
+                        <th class="p-2 text-xl font-medium text-left">Uk Price</th>
+                        <th class="p-2 text-xl font-medium text-left">Us Price</th>
+                        <th class="p-2 text-xl font-medium text-left">Total Sell</th>
                         <th class="p-2"></th>
                     </tr>
                 </thead>
                 <tbody class="w-full overflow-x-auto break-normal">
                     @forelse ($books as $book)
-                        @if ($book->id === 1)
-                            @continue
-                        @endif
                         <tr class="even:bg-primary-light">
                             <td class="p-2 whitespace-nowrap">
                                 <input type="checkbox" wire:model="checked" id="" value="{{ $book->id }}"
                                     class="block rounded whitespace-nowrap text-primary focus:outline-none focus:ring-primary">
                             </td>
                             <td class="p-2 whitespace-nowrap">
-                                <p class="">{{ $book->name }}</p>
+                                <img src="{{ asset('/storage/' . $book->cover_image) }}"
+                                    alt="{{ $book->title . 'Adonis abbey' }}" class="w-20 rounded">
 
                             </td>
                             <td class="p-2 whitespace-nowrap">
-                                {{ $book->bookname }}
+                                {{ $book->title }}
                             </td>
                             <td class="p-2 capitalize">
-                                {{ $book->roles[0]->name ?? '' }}
+                                {{ $book->user->name ?? '' }}
                             </td>
                             <td class="p-2 capitalize">
-                                <a href="/" class=""> {{ $book->phone }}</a>
+                                <span class=""> {{ $book->authors }}</span>
                             </td>
                             <td class="p-2 whitespace-nowrap">
-                                {{ $book->email }}
+                                {{ $book->uk_price }}
+                            </td>
+                            <td class="p-2 whitespace-nowrap">
+                                {{ $book->us_price }}
                             </td>
                             <td class="p-2 whitespace-nowrap">
                                 <div class="flex space-x-2 item-center">
-                                    <a href="tel:+234{{ str_replace('-', '', $book->phone) }}"
-                                        class="w-8 h-8 p-2 text-green-600 border border-green-600 rounded tt hover:-translate-y-1">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                            fill="currentColor" class="bi bi-telephone" viewBox="0 0 16 16">
-                                            <path
-                                                d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122l-2.19.547a1.745 1.745 0 0 1-1.657-.459L5.482 8.062a1.745 1.745 0 0 1-.46-1.657l.548-2.19a.678.678 0 0 0-.122-.58L3.654 1.328zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z" />
-                                        </svg>
-                                    </a>
                                     <span wire:click="edit({{ $book->id }})"
                                         class="w-8 h-8 p-2 text-blue-600 border border-blue-600 rounded-md cursor-pointer tt hover:-translate-y-1">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -148,7 +150,7 @@
             </div>
         @else
             <div class="p-8 text-center">
-                <p class="font-medium text-xl">No book yet, add books to the system</p>
+                <p class="text-xl font-medium">No book yet, add books to the system</p>
             </div>
         @endif
     </div>

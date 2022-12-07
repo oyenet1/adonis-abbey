@@ -11,7 +11,7 @@ use Livewire\WithPagination;
 
 class AllBooks extends Component
 {
-    public $title, $isbn, $publisher, $published_at, $cover_image, $genre, $authors, $revision_number, $cid;
+    public $title, $isbn, $user_id, $published_at, $cover_image, $uk_price, $us_price, $authors, $featured, $cid, $description, $weight, $forthcoming_title, $pages;
 
 
     public $update = false;
@@ -52,12 +52,17 @@ class AllBooks extends Component
     {
         $this->title = '';
         $this->published_at = '';
-        $this->publisher = '';
+        $this->user_id = '';
         $this->authors = '';
         $this->cover_image = '';
-        $this->revision_number = '';
-        $this->genre = '';
+        $this->uk_price = '';
+        $this->us_price = '';
+        $this->weight = '';
+        $this->pages = '';
         $this->isbn = '';
+        $this->description = '';
+        $this->forthcoming_title = '';
+        $this->featured = '';
         $this->update = false;
     }
 
@@ -67,7 +72,7 @@ class AllBooks extends Component
     }
     protected $messages = [
         'cover_image.image' => 'Image must be png, jpg, jpeg format',
-        'cover_image.max' => 'Image must be less than 500kb',
+        'cover_image.max' => 'Image must be less than 1mb',
         'cover_image.required' => 'Image must not be empty',
         'published_at.required' => 'Published Date must not be empy',
         'published_at.date' => 'Date must be in the past or today'
@@ -78,13 +83,18 @@ class AllBooks extends Component
         $data = $this->validate(
             [
                 'title' => 'required|unique:books,title',
-                'cover_image' => 'nullable|image|max:512',
+                'cover_image' => 'nullable|image|max:1000',
                 'authors' => 'required',
-                'revision_number' => 'required|numeric',
-                'publisher' => 'required',
-                'published_at' => 'required|date|before_or_equal:today',
+                'description' => 'required',
+                'pages' => 'nullable|numeric',
+                'weight' => 'nullable|numeric',
+                'featured' => 'nullable',
+                'user_id' => ['required'],
+                'uk_price' => ['required_if:us_price,null', 'nullable', 'numeric'],
+                'us_price' => ['required_if:uk_price,null', 'numeric'],
+                'published_at' => 'nullable|date|before_or_equal:today',
                 'isbn' => 'required',
-                'genre' => 'required',
+                'forthcoming_title' => 'nullable',
             ]
         );
         // imageurl
@@ -97,10 +107,9 @@ class AllBooks extends Component
 
         if ($saved) {
             $this->refreshInputs();
-            $this->dispatchBrowserEvent('closeModal');
             $this->dispatchBrowserEvent('swal:success', [
                 'icon' => 'success',
-                'text' => strtoupper($this->title) . ' added to library',
+                'text' => strtoupper($this->title) . ' added to Books List successfully',
                 'title' => 'Book Added',
                 'timer' => 3000,
             ]);
