@@ -13,10 +13,33 @@ class AllBooks extends Component
 {
     public $title, $isbn, $publisher, $published_at, $cover_image, $genre, $authors, $revision_number, $cid;
 
-    public $update = false;
-    public $delete = null;
 
+    public $update = false;
+    public $form = false;
+
+    public $selectedRole = null;
+    public ?array $checked = [];
+    public $perPage = 25;
+    public $sortField = 'id';
+    public $sortAsc = true;
     public $search = '';
+    public $selectPage = false;
+
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
+
+    function showForm()
+    {
+        $this->form = true;
+    }
+
+    // colored each seleted rows
+    function isChecked($id)
+    {
+        return in_array($id, $this->checked);
+    }
 
     use WithPagination;
     use WithFileUploads;

@@ -1,192 +1,155 @@
-<div class="w-full rounded-xl bg-white p-8">
-	<div class="flex items-center justify-between">
-		<div class="flex items-center space-x-4">
-			<h2 class="my-6 text-2xl font-semibold uppercase text-gray-700 dark:text-gray-200">Books</h2>
-			<button data-toggle="modal" data-target="#form" wire:click="add()"
-				class="rounded bg-red-600 px-3 py-2 text-sm text-white hover:bg-red-500 focus:outline-none">Add Book</button>
-		</div>
-		<form action="">
-			<input type="search" wire:model='search'
-				class="rounded-md border-2 border-green-600 p-2 text-sm placeholder-gray-400" placeholder="search book">
-		</form>
-	</div>
-	<!-- The Modal -->
-	<div class="modal fade" id="form" wire:ignore.self>
-		<div class="modal-dialog">
-			<div class="modal-content">
+<div class="flex flex-col w-full mx-auto gap-8 p-8 xl:p-8 2xl:p-10 xl:gap-8 2xl:gap-10">
+    {{-- form --}}
+    {{-- modal forms and inputs components --}}
+    <x-modal class="lg:max-w-2xl">
+        <x-form title="book" :update="$update">
+            <x-text-input label="Book Title*" name="title" type="text" wire:model.defer="title" />
+            <x-text-input label="Book Cover*" name="cover_image" type="file" wire:model.defer="cover_image" />
+            <div class="flex items-center justify-between w-full">
+                <x-text-input label="Uk price*" name="uk_price" type="text" wire:model.defer="uk_price"
+                    class="w-[96%]" />
+                <x-text-input label="US Price*" name="us_price" type="text" wire:model.defer="uk_price"
+                    class="w-[96%]" />
+            </div>
+            {{-- position --}}
+            <div class="w-full h-12 space-y-1">
+                <select wire:model.defer="user_id"
+                    class='w-full h-full pl-4 space-y-1 font-medium text-gray-500 placeholder-gray-500 capitalize bg-gray-100 border-0 rounded peer tt focus:border-2 focus:border-primary focus:bg-white focus:outline-none'
+                    id="">
+                    <option value="select" class="text-sm">Owner*</option>
+                    @foreach (\App\Models\User::with('roles')->whereRelation('roles', 'name', 'author')->get() as $option)
+                        <option class="py-2 capitalize" value="{{ $option->id }}">{{ $option->name }}</option>
+                    @endforeach
+                </select>
+                @error('user_id')
+                    <span class="text-red-600">{{ $message }}</span>
+                @enderror
+            </div>
+            <x-text-input label="ISBN*" name="isbn" type="text" wire:model.defer="isbn" />
+            <div class="flex items-center justify-between w-full">
+                <x-text-input label="Weight(kg)*" name="weight" type="text" wire:model.defer="weight"
+                    class="w-[30%]" />
+                <x-text-input label="Book Pages*" name="pages" type="text" wire:model.defer="pages"
+                    class="w-[30%]" />
+                <div class="flex flex-1">
+                    <label for="featured">Featured</label>
+                    <label for="yes">
+                        <input type="radio" name="featured" id="yes">
+                    </label>
+                </div>
+            </div>
 
-				<!-- Modal Header -->
-				<div class="modal-header">
-					<h4 class="modal-title text-lg font-medium">
-						@if ($update)
-							Edit Book details
-						@else
-							Add new Book
-						@endif
-					</h4>
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-				</div>
+            {{-- email --}}
+            {{--
+            <x-text-input label="Email*" name="email" type="text" wire:model.defer="email" /> --}}
+        </x-form>
+    </x-modal>
+    <div class="flex items-center justify-between ">
+        <div class="flex items-center space-x-6">
+            <h1 class="text-3xl font-semibold capitalize text-primary">books</h1>
+            @if ($checked)
+                <button class="font-normal btn btn-secondary">Select All {{ count($checked) }}</button>
+                <x-button.bulk-delete />
+            @else
+                <x-button.add name="books" />
+            @endif
 
-				<!-- Modal body -->
-				<div class="modal-body">
-					<form wire:submit.prevent=@if ($update) 'update' @else 'save' @endif
-						class="w-ful row h-96 overflow-y-auto px-3" enctype="multipart/form-data">
-						<div class="grid grid-cols-2 gap-4">
-							<div class="w-full">
-								<label for="title" class="mb-1 text-sm font-normal text-gray-600">Title</label>
-								<input type="text" wire:model.defer="title"
-									class="focus-within: w-full rounded border-2 p-2 font-medium placeholder-gray-400 focus:border-green-600 focus:outline-none">
-								@error('title')
-									<span class="text-xs font-normal text-red-600">{{ $message }}</span>
-								@enderror
-							</div>
-							<div class="w-full">
-								<label for="authors" class="mb-1 text-sm font-normal text-gray-600">Authors</label>
-								<input type="text" wire:model.defer="authors"
-									class="focus-within: w-full rounded border-2 p-2 font-medium placeholder-gray-400 focus:border-green-600 focus:outline-none">
-								@error('authors')
-									<span class="text-xs font-normal text-red-600">{{ $message }}</span>
-								@enderror
-							</div>
-							<div class="w-full">
-								<label for="authors" class="mb-1 text-sm font-normal text-gray-600">Cover Image</label>
-								<input type="file" wire:model.defer="cover_image"
-									class="focus-within: w-full rounded border-2 p-2 font-medium placeholder-gray-400 focus:border-green-600 focus:outline-none">
-								@error('cover_image')
-									<span class="text-xs font-normal text-red-600">{{ $message }}</span>
-								@enderror
-							</div>
-							<div class="w-full">
-								<label for="authors" class="mb-1 text-sm font-normal text-gray-600">ISBN</label>
-								<input type="text" wire:model.defer="isbn"
-									class="focus-within: w-full rounded border-2 p-2 font-medium placeholder-gray-400 focus:border-green-600 focus:outline-none">
-								@error('isbn')
-									<span class="text-xs font-normal text-red-600">{{ $message }}</span>
-								@enderror
-							</div>
-							<div class="w-full">
-								<label for="authors" class="mb-1 text-sm font-normal capitalize text-gray-600">revision number</label>
-								<input type="text" wire:model.defer="revision_number"
-									class="focus-within: w-full rounded border-2 p-2 font-medium placeholder-gray-400 focus:border-green-600 focus:outline-none">
-								@error('revision_number')
-									<span class="text-xs font-normal text-red-600">{{ $message }}</span>
-								@enderror
-							</div>
-							<div class="w-full">
-								<label for="authors" class="mb-1 text-sm font-normal capitalize text-gray-600">publishers</label>
-								<input type="text" wire:model.defer="publisher"
-									class="focus-within: w-full rounded border-2 p-2 font-medium placeholder-gray-400 focus:border-green-600 focus:outline-none">
-								@error('publisher')
-									<span class="text-xs font-normal text-red-600">{{ $message }}</span>
-								@enderror
-							</div>
-							<div class="w-full">
-								<label for="authors" class="mb-1 text-sm font-normal capitalize text-gray-600">Publishes date</label>
-								<input type="date" wire:model.defer="published_at"
-									class="focus-within: w-full rounded border-2 p-2 font-medium placeholder-gray-400 focus:border-green-600 focus:outline-none">
-								@error('published_at')
-									<span class="text-xs font-normal text-red-600">{{ $message }}</span>
-								@enderror
-							</div>
-							<div class="mb-3 w-full">
-								<label for="authors" class="mb-1 text-sm font-normal capitalize text-gray-600">genre</label>
-								<input type="text" wire:model.defer="genre"
-									class="focus-within: w-full rounded border-2 p-2 font-medium placeholder-gray-400 focus:border-green-600 focus:outline-none">
-								@error('genre')
-									<span class="text-xs font-normal text-red-600">{{ $message }}</span>
-								@enderror
-							</div>
-						</div>
+        </div>
 
-						<div class="my-auto flex justify-end text-right lg:col-span-2">
-							@if ($update)
-								<button type="submit"
-									class="rounded border-2 border-green-500 bg-green-600 py-2 px-3 text-center text-sm font-medium text-white hover:opacity-80">Update
-									Book</button>
-							@else
-								<button type="submit"
-									class="rounded border-2 border-green-500 bg-green-600 py-2 px-3 text-center text-sm font-medium text-white hover:opacity-80">Save
-									Book</button>
-							@endif
-						</div>
-					</form>
-				</div>
+        {{-- right side --}}
+        <div class="flex items-center space-x-6">
+            <x-search name="books" />
+        </div>
+    </div>
 
-				{{-- <!-- Modal footer -->
-          <div class="modal-footer">
-            <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">Close</button>
-          </div> --}}
+    {{-- tables --}}
+    <div class="w-full px-4 pb-4 overflow-x-auto bg-white rounded-lg shadow-sm">
+        @if (\App\Models\book::count() > 1)
+            <table class="w-full space-y-2 overflow-x-auto whitespace-nowrap">
+                <thead class="w-full pb-4 text-xl border-b">
+                    <tr class="font-medium">
+                        <th class="p-2 whitespace-nowrap"></th>
+                        <th class="p-2 text-xl font-medium text-left">Name</th>
+                        <th class="p-2 text-xl font-medium text-left">bookname</th>
+                        <th class="p-2 text-xl font-medium text-left">Role</th>
+                        <th class="p-2 text-xl font-medium text-left">Phone</th>
+                        <th class="p-2 text-xl font-medium text-left">Email</th>
+                        <th class="p-2"></th>
+                    </tr>
+                </thead>
+                <tbody class="w-full overflow-x-auto break-normal">
+                    @forelse ($books as $book)
+                        @if ($book->id === 1)
+                            @continue
+                        @endif
+                        <tr class="even:bg-primary-light">
+                            <td class="p-2 whitespace-nowrap">
+                                <input type="checkbox" wire:model="checked" id="" value="{{ $book->id }}"
+                                    class="block rounded whitespace-nowrap text-primary focus:outline-none focus:ring-primary">
+                            </td>
+                            <td class="p-2 whitespace-nowrap">
+                                <p class="">{{ $book->name }}</p>
 
-			</div>
-		</div>
-	</div>
-	@if ($books->count() > 0)
-		<table class="w-full table-auto border-collapse overflow-hidden rounded border border-white shadow">
-			<thead>
-				<tr class="px- border bg-green-600 text-left font-normal text-white">
-					<th class="py-2 pl-2 font-normal">No</th>
-					<th class="py-2 pl-2 font-normal">Author & Title</th>
-					<th class="py-2 pl-2 font-normal">Genre</th>
-					<th class="py-2 pl-2 font-normal">ISBN</th>
-					<th class="py-2 pl-2 font-normal">Publisher</th>
-					<th class="py-2 pl-2 font-normal">Published Date</th>
-					<th class="py-2 pl-2 font-normal">Action</th>
-				</tr>
-			</thead>
+                            </td>
+                            <td class="p-2 whitespace-nowrap">
+                                {{ $book->bookname }}
+                            </td>
+                            <td class="p-2 capitalize">
+                                {{ $book->roles[0]->name ?? '' }}
+                            </td>
+                            <td class="p-2 capitalize">
+                                <a href="/" class=""> {{ $book->phone }}</a>
+                            </td>
+                            <td class="p-2 whitespace-nowrap">
+                                {{ $book->email }}
+                            </td>
+                            <td class="p-2 whitespace-nowrap">
+                                <div class="flex space-x-2 item-center">
+                                    <a href="tel:+234{{ str_replace('-', '', $book->phone) }}"
+                                        class="w-8 h-8 p-2 text-green-600 border border-green-600 rounded tt hover:-translate-y-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-telephone" viewBox="0 0 16 16">
+                                            <path
+                                                d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122l-2.19.547a1.745 1.745 0 0 1-1.657-.459L5.482 8.062a1.745 1.745 0 0 1-.46-1.657l.548-2.19a.678.678 0 0 0-.122-.58L3.654 1.328zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z" />
+                                        </svg>
+                                    </a>
+                                    <span wire:click="edit({{ $book->id }})"
+                                        class="w-8 h-8 p-2 text-blue-600 border border-blue-600 rounded-md cursor-pointer tt hover:-translate-y-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="my-auto bi bi-eye" viewBox="0 0 16 16">
+                                            <path
+                                                d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z" />
+                                            <path
+                                                d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
+                                        </svg>
+                                    </span>
+                                    <span wire:click="confirmDelete({{ $book->id }})"
+                                        class="w-8 h-8 p-2 text-red-600 border border-red-600 rounded-md cursor-pointer tt hover:-translate-y-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                                            <path
+                                                d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
+                                        </svg>
+                                    </span>
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <h1 class="text-2xl font-bold">No records found in the database</h1>
+                    @endforelse
+                </tbody>
+            </table>
 
-			<tbody>
-				@forelse ($books as $book)
-					<tr class="border">
-						<td class="p-2">{{ $loop->iteration }}</td>
-						<td class="p-2">
-							<div class="tt flex max-w-xs space-x-2 rounded border p-1 shadow-sm duration-300 hover:bg-green-50">
-								<img src="{{ asset('/storage/' . $book->cover_image) }}" alt="{{ $book->title }}"
-									class="h-24 w-24 rounded object-cover object-center">
-								<div class="space-y-2">
-									<p class="font-semibold uppercase">{{ $book->title }}</p>
-									<p class="text-xs font-medium capitalize text-gray-500">Author(s): {{ $book->authors }}</p>
-								</div>
-							</div>
-						</td>
-						<td class="p-2 uppercase">
-							{{ $book->genre }}
-						</td>
-						<td class="p-2 uppercase">
-							{{ $book->isbn }}
-						</td>
-						<td class="p-2">{{ $book->publisher }}</td>
-						<td class="p-2">{{ $book->published_at->format('d M, Y') }}</td>
-						<td class="items-center justify-start p-2">
-							<button wire:click='edit({{ $book->id }})' title="Edit Book" data-toggle="tooltip" data-placement="left"
-								class="mx-1 rounded-sm bg-blue-600 p-1 text-white transition duration-500 hover:opacity-80">
-								<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="currentColor" class="bi bi-pencil-square"
-									viewBox="0 0 16 16">
-									<path
-										d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-									<path fill-rule="evenodd"
-										d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
-								</svg>
-							</button>
-							<button wire:click="confirmDelete({{ $book->id }})" title="Delete Book" data-toggle="tooltip"
-								data-placement="top"
-								class="mx-1 rounded-sm bg-red-600 p-1 text-white transition duration-500 hover:opacity-80">
-								<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-									stroke="currentColor">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-										d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-								</svg>
-							</button>
-						</td>
-					</tr>
-				@empty
-					<h2>No books yet in the shelf</h2>
-				@endforelse
-
-				<p class="my-2">{{ $books->links() }}</p>
-
-			</tbody>
-		</table>
-	@else
-		<p class="text-lg">No book, kindly add books</p>
-	@endif
+            {{-- pagnation components --}}
+            <div class="mt-4">
+                <x-per-page>
+                    {{ $books->links() }}
+                </x-per-page>
+            </div>
+        @else
+            <div class="p-8 text-center">
+                <p class="font-medium text-xl">No book yet, add books to the system</p>
+            </div>
+        @endif
+    </div>
 </div>
